@@ -9,8 +9,9 @@ import TelaConfirmacaoConsulta from './screens/TelaConsultas/TelaConfirmacaoCons
 import TelaRealizacaoConsulta from './screens/TelaConsultas/TelaRealizacaoConsulta';
 import TelaEncerramentoConsulta from './screens/TelaConsultas/TelaEncerramentoConsulta/TelaEncerramentoConsulta';
 import { Cliente } from './components/ListaClientes/ListaClientes';
+import TelaCancelamentoConsulta from './screens/TelaConsultas/TelaCancelamentoConsulta/TelaCancelamentoConsulta';
 
-type TelaAtual = 'lista' | 'cadastro' | 'marcacao' | 'confirmacao' | 'realizacao' | 'encerramento';
+type TelaAtual = 'lista' | 'cadastro' | 'marcacao' | 'confirmacao' | 'realizacao' | 'encerramento' | 'cancelamento';
 
 export default function App() {
   const [telaAtual, setTelaAtual] = useState<TelaAtual>('lista');
@@ -113,6 +114,13 @@ export default function App() {
           >
             <Text style={[styles.menuButtonText, telaAtual === 'encerramento' && styles.menuButtonTextActive]}>Encerramento de Consulta</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.menuButton, telaAtual === 'cancelamento' && styles.menuButtonActive]} 
+            onPress={() => setTelaAtual('cancelamento')}
+          >
+            <Text style={[styles.menuButtonText, telaAtual === 'cancelamento' && styles.menuButtonTextActive]}>Cancelamento de Consulta</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
 
@@ -152,6 +160,12 @@ export default function App() {
 
         {telaAtual === 'encerramento' && (
           <TelaEncerramentoConsulta 
+            onVoltar={voltarParaLista} 
+          />
+        )}
+
+        {telaAtual === 'cancelamento' && (
+          <TelaCancelamentoConsulta
             onVoltar={voltarParaLista} 
           />
         )}

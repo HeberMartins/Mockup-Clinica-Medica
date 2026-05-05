@@ -14,7 +14,7 @@ export default function TelaClientes({ clientes, onNovoCliente }: TelaClientesPr
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.titulo}>Cidadãos de Martinaise</Text>
+        <Text style={styles.titulo}>Clientes</Text>
         
         <BotaoNovoCliente 
           label="Novo Registro" 
