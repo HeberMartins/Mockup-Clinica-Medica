@@ -4,8 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 
 import TelaClientes from './screens/TelaClientes/TelaClientes';
 import TelaCadastro from './screens/TelaCadastroCliente/TelaCadastroCliente'; 
-import TelaMarcacaoConsulta from './screens/TelaConsultas/TelaMarcacaoConsulta';
-import TelaConfirmacaoConsulta from './screens/TelaConsultas/TelaConfirmacaoConsulta';
+import TelaMarcacaoConsulta from './screens/TelaConsultas/TelaMarcacaoConsulta/TelaMarcacaoConsulta';
+import TelaConfirmacaoConsulta from './screens/TelaConsultas/TelaConfirmacaoConsulta/TelaConfirmacaoConsulta';
 import TelaRealizacaoConsulta from './screens/TelaConsultas/TelaRealizacaoConsulta';
 import TelaEncerramentoConsulta from './screens/TelaConsultas/TelaEncerramentoConsulta/TelaEncerramentoConsulta';
 import { Cliente } from './components/ListaClientes/ListaClientes';
