@@ -21,6 +21,7 @@ export default function TelaEncerramentoConsulta({ onVoltar }: Props) {
       alert('Por favor, preencha os procedimentos e as informações de pagamento.');
       return;
     }
+
     alert('Consulta encerrada e registrada com sucesso!');
   };
 
@@ -30,14 +31,17 @@ export default function TelaEncerramentoConsulta({ onVoltar }: Props) {
         <TouchableOpacity style={styles.botaoVoltar} onPress={onVoltar}>
           <Text style={styles.textoVoltar}>VOLTAR</Text>
         </TouchableOpacity>
+
         <Text style={styles.titulo}>Encerrar Consulta</Text>
+
         <View style={{ width: 80 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
-        
-        <Text style={styles.subtitle}>Aguardando Encerramento (Realizadas)</Text>
-        
+        <Text style={styles.subtitle}>
+          Aguardando Encerramento (Realizadas)
+        </Text>
+
         <View style={styles.listaContainer}>
           {consultasPendentes.map((item) => (
             <TouchableOpacity
@@ -48,10 +52,19 @@ export default function TelaEncerramentoConsulta({ onVoltar }: Props) {
               ]}
               onPress={() => setConsultaSelecionada(item.id)}
             >
-              <Text style={styles.textoPaciente}>Paciente: {item.paciente}</Text>
-              <Text style={styles.textoDetalhe}>Médico: {item.medico}</Text>
+              <Text style={styles.textoPaciente}>
+                Paciente: {item.paciente}
+              </Text>
+
               <Text style={styles.textoDetalhe}>
-                Valor: {item.tipo === 'Retorno' ? 'Não Cobrada (Retorno)' : item.valorBase}
+                Médico: {item.medico}
+              </Text>
+
+              <Text style={styles.textoDetalhe}>
+                Valor:{' '}
+                {item.tipo === 'Retorno'
+                  ? 'Não Cobrada (Retorno)'
+                  : item.valorBase}
               </Text>
             </TouchableOpacity>
           ))}
@@ -59,9 +72,11 @@ export default function TelaEncerramentoConsulta({ onVoltar }: Props) {
 
         {consultaSelecionada && (
           <View style={styles.formSection}>
-            
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Procedimentos Realizados:</Text>
+              <Text style={styles.inputLabel}>
+                Procedimentos Realizados:
+              </Text>
+
               <TextInput
                 style={[styles.inputField, styles.textArea]}
                 multiline
@@ -73,7 +88,10 @@ export default function TelaEncerramentoConsulta({ onVoltar }: Props) {
             </View>
 
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Registro de Pagamento:</Text>
+              <Text style={styles.inputLabel}>
+                Registro de Pagamento:
+              </Text>
+
               <TextInput
                 style={styles.inputField}
                 placeholder="Ex: Cartão de Crédito, Dinheiro, Convênio..."
@@ -82,14 +100,17 @@ export default function TelaEncerramentoConsulta({ onVoltar }: Props) {
               />
             </View>
 
-            <TouchableOpacity style={styles.saveButton} onPress={lidarComEncerramento}>
-              <Text style={styles.saveButtonText}>Confirmar e Encerrar</Text>
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={lidarComEncerramento}
+            >
+              <Text style={styles.saveButtonText}>
+                Confirmar e Encerrar
+              </Text>
             </TouchableOpacity>
-            
           </View>
         )}
       </ScrollView>
     </View>
   );
 }
-
