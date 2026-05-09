@@ -23,4 +23,14 @@ export const styles = StyleSheet.create({
     letterSpacing: 2,
     maxWidth: '50%',
   },
+  botaoVoltar: {
+    paddingVertical: 8,
+    paddingRight: 12,
+    justifyContent: 'center',
+  },
+  textoVoltar: {
+    color: '#0284c7', // Azul padrão Maria Auxiliadora
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 });
