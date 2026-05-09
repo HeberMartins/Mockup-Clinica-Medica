@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, SafeAreaView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from '../../../ThemeContext';
 import { styles } from './TelaMarcacaoConsultaStyle';
 
 interface Props {
@@ -8,28 +10,29 @@ interface Props {
 }
 
 export default function TelaMarcacaoConsulta({ onVoltar }: Props) {
+  const { theme, isDark, toggleTheme } = useTheme();
+
   const [pacienteId, setPacienteId] = useState('');
   const [especialidade, setEspecialidade] = useState('');
   const [medicoId, setMedicoId] = useState('');
   const [horarioSelecionado, setHorarioSelecionado] = useState<number | null>(null);
 
-  // Simulação de agenda com os status obrigatórios: L, C, M, X, B
   const agenda = [
-    { id: 1, data: '12/05/2026', hora: '08:00', status: 'L' }, // Laudo
-    { id: 2, data: '15/05/2026', hora: '09:00', status: 'C' }, // Consulta
-    { id: 3, data: '20/05/2026', hora: '10:00', status: 'M' }, // Manutenção
-    { id: 4, data: '22/05/2026', hora: '11:00', status: 'X' }, // Cancelado (Ocupado/Indisponível)
-    { id: 5, data: '05/06/2026', hora: '14:00', status: 'B' }, // Bloqueado
+    { id: 1, data: '12/05/2026', hora: '08:00', status: 'L' },
+    { id: 2, data: '15/05/2026', hora: '09:00', status: 'C' },
+    { id: 3, data: '20/05/2026', hora: '10:00', status: 'M' },
+    { id: 4, data: '22/05/2026', hora: '11:00', status: 'X' },
+    { id: 5, data: '05/06/2026', hora: '14:00', status: 'B' },
   ];
 
   const getStatusInfo = (status: string) => {
     switch (status) {
-      case 'L': return { label: 'Laudo', color: '#0284c7' };
-      case 'C': return { label: 'Consulta', color: '#059669' };
-      case 'M': return { label: 'Manutenção', color: '#d97706' };
+      case 'L': return { label: 'Laudo', color: isDark ? '#38bdf8' : '#0284c7' };
+      case 'C': return { label: 'Consulta', color: isDark ? '#4ade80' : '#059669' };
+      case 'M': return { label: 'Manutenção', color: isDark ? '#fbbf24' : '#d97706' };
       case 'X': return { label: 'Cancelado', color: '#dc3545' };
-      case 'B': return { label: 'Bloqueado', color: '#64748b' };
-      default: return { label: 'Indisponível', color: '#000' };
+      case 'B': return { label: 'Bloqueado', color: '#94a3b8' };
+      default: return { label: 'Indisponível', color: theme.text };
     }
   };
 
@@ -48,46 +51,58 @@ export default function TelaMarcacaoConsulta({ onVoltar }: Props) {
   };
 
   return (
-      <View style={styles.container}>
-        <View style={styles.header}>
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+        <View style={[styles.header, { backgroundColor: theme.card, borderBottomColor: theme.border }]}>
           <TouchableOpacity style={styles.botaoVoltar} onPress={onVoltar}>
-            <Text style={styles.textoVoltar}>VOLTAR</Text>
+            <MaterialCommunityIcons name="arrow-left" size={24} color={theme.primary} />
+            <Text style={[styles.textoVoltar, { color: theme.primary }]}>VOLTAR</Text>
           </TouchableOpacity>
-          <Text style={styles.titulo}>Marcação</Text>
-          <View style={{ width: 60 }} />
+          <Text style={[styles.titulo, { color: theme.text }]}>Marcação</Text>
+
+          <TouchableOpacity onPress={toggleTheme}>
+            <MaterialCommunityIcons
+                name={isDark ? "weather-sunny" : "weather-night"}
+                size={22}
+                color={theme.textSecondary}
+            />
+          </TouchableOpacity>
         </View>
 
         <ScrollView contentContainerStyle={styles.content}>
-          <Text style={styles.label}>Cliente:</Text>
-          <View style={styles.pickerContainer}>
-            <Picker selectedValue={pacienteId} onValueChange={setPacienteId}>
-              <Picker.Item label="Selecione o cliente..." value="" />
-              <Picker.Item label="Harrier Du Bois" value="1" />
+          {/* Seletores Dinâmicos */}
+          <Text style={[styles.label, { color: theme.textSecondary }]}>Cliente:</Text>
+          <View style={[styles.pickerContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <Picker
+                selectedValue={pacienteId}
+                onValueChange={setPacienteId}
+                dropdownIconColor={theme.primary}
+                style={{ color: theme.text }}
+            >
+              <Picker.Item label="Selecione o cliente..." value="" color={isDark ? '#94a3b8' : '#64748b'} />
+              <Picker.Item label="Harrier Du Bois" value="1" color={theme.text} />
             </Picker>
           </View>
 
-          <Text style={styles.label}>Especialidade:</Text>
-          <View style={styles.pickerContainer}>
-            <Picker selectedValue={especialidade} onValueChange={setEspecialidade}>
-              <Picker.Item label="Selecione a especialidade..." value="" />
-              <Picker.Item label="Cardiologia" value="cardio" />
+          <Text style={[styles.label, { color: theme.textSecondary }]}>Especialidade:</Text>
+          <View style={[styles.pickerContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
+            <Picker
+                selectedValue={especialidade}
+                onValueChange={setEspecialidade}
+                dropdownIconColor={theme.primary}
+                style={{ color: theme.text }}
+            >
+              <Picker.Item label="Selecione a especialidade..." value="" color={isDark ? '#94a3b8' : '#64748b'} />
+              <Picker.Item label="Cardiologia" value="cardio" color={theme.text} />
             </Picker>
           </View>
 
-          <Text style={styles.label}>Médico:</Text>
-          <View style={styles.pickerContainer}>
-            <Picker selectedValue={medicoId} onValueChange={setMedicoId}>
-              <Picker.Item label="Selecione o médico..." value="" />
-              <Picker.Item label="Dr. Carlos" value="1" />
-            </Picker>
-          </View>
-
-          <Text style={styles.subtitle}>Agenda (Próximos 2 Meses)</Text>
+          <Text style={[styles.subtitle, { color: theme.text }]}>Agenda (Próximos 2 Meses)</Text>
 
           <View style={styles.agendaContainer}>
             {agenda.map((item) => {
               const info = getStatusInfo(item.status);
               const isDisabled = item.status === 'X' || item.status === 'B';
+              const isSelected = horarioSelecionado === item.id;
 
               return (
                   <TouchableOpacity
@@ -95,8 +110,8 @@ export default function TelaMarcacaoConsulta({ onVoltar }: Props) {
                       disabled={isDisabled}
                       style={[
                         styles.horarioCard,
-                        horarioSelecionado === item.id && styles.horarioSelected,
-                        isDisabled && { opacity: 0.5, backgroundColor: '#f1f5f9' }
+                        { backgroundColor: theme.card, borderColor: isSelected ? theme.primary : theme.border },
+                        isDisabled && { opacity: 0.4, backgroundColor: isDark ? '#1e293b' : '#f1f5f9' }
                       ]}
                       onPress={() => setHorarioSelecionado(item.id)}
                   >
@@ -104,18 +119,19 @@ export default function TelaMarcacaoConsulta({ onVoltar }: Props) {
                       <Text style={styles.statusTextoBadge}>{item.status}</Text>
                     </View>
                     <View style={{ flex: 1, marginLeft: 12 }}>
-                      <Text style={styles.textoHorario}>{item.data} - {item.hora}</Text>
+                      <Text style={[styles.textoHorario, { color: theme.text }]}>{item.data} - {item.hora}</Text>
                       <Text style={[styles.textoStatusDesc, { color: info.color }]}>{info.label}</Text>
                     </View>
+                    {isSelected && <MaterialCommunityIcons name="check-circle" size={24} color={theme.primary} />}
                   </TouchableOpacity>
               );
             })}
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={realizarMarcacao}>
+          <TouchableOpacity style={[styles.button, { backgroundColor: theme.primary }]} onPress={realizarMarcacao}>
             <Text style={styles.buttonText}>Confirmar Agendamento</Text>
           </TouchableOpacity>
         </ScrollView>
-      </View>
+      </SafeAreaView>
   );
 }

@@ -3,101 +3,101 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f4f8', 
+    // O backgroundColor agora é definido dinamicamente pelo theme.background
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 30,
+    paddingTop: 50, // Aumentado para evitar colisão com a barra de status
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#2c2c2e',
-    backgroundColor: '#f0f4f8',
+    // O background e a cor da borda vêm do theme.card e theme.border
   },
   botaoVoltar: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
-    width: 80,
   },
   textoVoltar: {
-    color: '#080808', 
     fontSize: 12,
     fontWeight: 'bold',
     letterSpacing: 1,
+    marginLeft: 4,
+    // A cor vem do theme.primary
   },
   titulo: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#000000',
     textTransform: 'uppercase',
     letterSpacing: 2,
     textAlign: 'center',
+    // A cor vem do theme.text
   },
   content: {
     padding: 16,
     paddingBottom: 40,
   },
   patientInfoBox: {
-    backgroundColor: '#e0f2fe',
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 24,
     borderWidth: 1,
-    borderColor: '#bae6fd',
+    // O background e a borda vêm do theme.card e theme.border
   },
   infoLabel: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#0369a1',
+    fontWeight: '700',
+    // A cor vem do theme.text
   },
   patientStatus: {
-    color: '#0284c7',
+    fontWeight: 'bold',
+    fontSize: 13,
+    // A cor geralmente é o theme.primary para destaque
   },
   inputGroup: {
-    marginBottom: 16,
-    backgroundColor: '#ffffff',
-    padding: 16,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+    marginBottom: 20,
+    // O background e borda vêm do theme.card e theme.border
   },
   inputLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#334155',
+    fontSize: 12,
+    fontWeight: '800',
     marginBottom: 8,
-  },
-  historicText: {
-    fontSize: 13,
-    color: '#475569',
-    fontStyle: 'italic',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    // A cor vem do theme.textSecondary
   },
   inputField: {
     borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 6,
-    padding: 10,
-    fontSize: 14,
-    backgroundColor: '#f8fafc',
-    color: '#0f172a',
+    borderRadius: 10,
+    padding: 14,
+    fontSize: 15,
+    textAlignVertical: 'top',
+    // O background, cor do texto e borda vêm do theme (card, text, border)
   },
   textArea: {
-    height: 90,
-    textAlignVertical: 'top',
+    height: 120, // Aumentado para melhor usabilidade do médico
   },
   saveButton: {
-    backgroundColor: '#0284c7',
-    paddingVertical: 14,
-    borderRadius: 8,
-    marginTop: 8,
+    paddingVertical: 16,
+    borderRadius: 12,
+    marginTop: 10,
     alignItems: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    // Background vem do theme.primary
   },
   saveButtonText: {
     color: '#ffffff',
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
 });

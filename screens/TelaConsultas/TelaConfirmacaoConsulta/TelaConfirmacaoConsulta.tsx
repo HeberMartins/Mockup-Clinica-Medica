@@ -1,56 +1,74 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
+import { useTheme } from '../../../ThemeContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from './TelaConfirmacaoConsultaStyle';
 
 interface Props {
-  onVoltar?: () => void;
+    onVoltar?: () => void;
 }
 
 export default function TelaConfirmacaoConsulta({ onVoltar }: Props) {
-  const [consultas, setConsultas] = useState([
-    { id: '1', cliente: 'Maria Souza', medico: 'Dra. Ana', horario: '14:00' },
-    { id: '2', cliente: 'Pedro Santos', medico: 'Dr. Roberto', horario: '15:30' },
-  ]);
+    const { theme, isDark, toggleTheme } = useTheme();
 
-  const confirmarConsulta = (id: string) => {
-    Alert.alert('Sucesso', 'Consulta confirmada com sucesso!');
-    setConsultas(consultas.filter((item) => item.id !== id));
-  };
+    const [consultas, setConsultas] = useState([
+        { id: '1', cliente: 'Maria Souza', medico: 'Dra. Ana', horario: '14:00' },
+        { id: '2', cliente: 'Pedro Santos', medico: 'Dr. Roberto', horario: '15:30' },
+    ]);
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.botaoVoltar} onPress={onVoltar}>
-          <Text style={styles.textoVoltar}>VOLTAR</Text>
-        </TouchableOpacity>
-        <Text style={styles.titulo}>Confirmação de Consulta</Text>
-        <View style={{ width: 80 }} />
-      </View>
+    const confirmarConsulta = (id: string) => {
+        Alert.alert('Sucesso', 'Consulta confirmada com sucesso!');
+        setConsultas(consultas.filter((item) => item.id !== id));
+    };
 
-      <View style={styles.content}>
-        <Text style={styles.subtitle}>Atendimentos do dia corrente não confirmados</Text>
+    return (
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+            {/* HEADER ADAPTÁVEL */}
+            <View style={[styles.header, { backgroundColor: theme.card, borderBottomColor: theme.border }]}>
+                <TouchableOpacity style={styles.botaoVoltar} onPress={onVoltar}>
+                    <MaterialCommunityIcons name="arrow-left" size={24} color={theme.primary} />
+                    <Text style={[styles.textoVoltar, { color: theme.primary }]}>VOLTAR</Text>
+                </TouchableOpacity>
 
-        <FlatList
-          data={consultas}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <View>
-                <Text style={styles.cardTitle}>{item.cliente}</Text>
-                <Text style={styles.cardDetails}>
-                  {item.medico} – {item.horario}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => confirmarConsulta(item.id)}
-              >
-                <Text style={styles.buttonText}>Confirmar</Text>
-              </TouchableOpacity>
+                <Text style={[styles.titulo, { color: theme.text }]}>Confirmação</Text>
+
+                <TouchableOpacity onPress={toggleTheme}>
+                    <MaterialCommunityIcons
+                        name={isDark ? "weather-sunny" : "weather-night"}
+                        size={22}
+                        color={theme.textSecondary}
+                    />
+                </TouchableOpacity>
             </View>
-          )}
-        />
-      </View>
-    </View>
-  );
+
+            <View style={styles.content}>
+                <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
+                    Atendimentos de hoje não confirmados
+                </Text>
+
+                <FlatList
+                    data={consultas}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View style={[styles.card, { backgroundColor: theme.card, borderColor: theme.border }]}>
+                            <View>
+                                <Text style={[styles.cardTitle, { color: theme.text }]}>{item.cliente}</Text>
+                                <Text style={[styles.cardDetails, { color: theme.textSecondary }]}>
+                                    {item.medico} – {item.horario}
+                                </Text>
+                            </View>
+
+                            <TouchableOpacity
+                                style={[styles.button, { backgroundColor: theme.primary }]}
+                                onPress={() => confirmarConsulta(item.id)}
+                            >
+                                <MaterialCommunityIcons name="check" size={18} color="white" />
+                                <Text style={styles.buttonText}>Confirmar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                />
+            </View>
+        </SafeAreaView>
+    );
 }

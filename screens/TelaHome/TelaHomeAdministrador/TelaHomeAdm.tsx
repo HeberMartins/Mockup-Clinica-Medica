@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTheme } from '../../../ThemeContext';
 import { styles } from './TelaHomeAdmStyle';
 
 const AdmHome = ({ navigation }: { navigation: any }) => {
+    // Consumindo o tema global
+    const { theme, toggleTheme, isDark } = useTheme();
 
     const secoes = [
         {
@@ -14,57 +17,69 @@ const AdmHome = ({ navigation }: { navigation: any }) => {
             ]
         },
         {
-            titulo: 'Cadastros Mestres',
+            titulo: 'Configurações do Sistema',
             data: [
-                { id: 3, title: 'Médicos', icon: 'doctor', screen: 'cadastroMedico', color: '#059669' },
-                { id: 4, title: 'Especialidades', icon: 'clipboard-plus', screen: 'cadastroEspec', color: '#7c3aed' },
-                { id: 5, title: 'Usuários/Sistema', icon: 'shield-account', screen: 'gestaoUsuarios', color: '#475569' },
-            ]
-        },
-        {
-            titulo: 'Financeiro e Relatórios',
-            data: [
-                { id: 6, title: 'Faturamento', icon: 'finance', screen: 'relatorios', color: '#d97706' },
-                { id: 7, title: 'Logs de Acesso', icon: 'history', screen: 'logs', color: '#dc3545' },
+                { id: 3, title: 'Especialidades', icon: 'clipboard-plus', screen: 'cadastroEspec', color: '#7c3aed' },
+                { id: 4, title: 'Usuários/Acessos', icon: 'shield-account', screen: 'gestaoUsuarios', color: '#475569' },
             ]
         }
     ];
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
             <ScrollView contentContainerStyle={styles.content}>
 
+                {/* HEADER COM BOTÃO DE ALTERNAR TEMA */}
                 <View style={styles.header}>
-                    <Text style={styles.welcomeText}>Painel Administrativo</Text>
-                    <Text style={styles.statusText}>Acesso Total - Admin</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <View>
+                            <Text style={[styles.welcomeText, { color: theme.text }]}>Painel Administrativo</Text>
+                            <Text style={[styles.statusText, { color: theme.textSecondary }]}>Acesso Total - Admin</Text>
+                        </View>
+
+                        <TouchableOpacity
+                            onPress={toggleTheme}
+                            style={{ padding: 10, borderRadius: 50, backgroundColor: isDark ? '#334155' : '#e2e8f0' }}
+                        >
+                            <MaterialCommunityIcons
+                                name={isDark ? "weather-sunny" : "weather-night"}
+                                size={24}
+                                color={isDark ? "#fbbf24" : "#475569"}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
-                {/* Dashboard de Visão Geral (KPIs do Administrador) */}
-                <View style={styles.dashboardAdm}>
+                {/* DASHBOARD COM CORES ADAPTÁVEIS */}
+                <View style={[styles.dashboardAdm, { backgroundColor: theme.card, borderColor: theme.border }]}>
                     <View style={styles.kpiItem}>
-                        <Text style={styles.kpiLabel}>Atendimentos/Mês</Text>
-                        <Text style={styles.kpiValue}>342</Text>
+                        <Text style={[styles.kpiLabel, { color: theme.textSecondary }]}>Consultas Hoje</Text>
+                        <Text style={[styles.kpiValue, { color: theme.text }]}>24</Text>
                     </View>
-                    <View style={styles.dividerV} />
+                    <View style={[styles.dividerV, { backgroundColor: theme.border }]} />
                     <View style={styles.kpiItem}>
-                        <Text style={styles.kpiLabel}>Receita Estimada</Text>
-                        <Text style={[styles.kpiValue, {color: '#059669'}]}>R$ 42k</Text>
+                        <Text style={[styles.kpiLabel, { color: theme.textSecondary }]}>Novos Pacientes</Text>
+                        <Text style={[styles.kpiValue, { color: theme.text }]}>08</Text>
                     </View>
                 </View>
 
-                {/* Mapeamento das Seções de Controle */}
+                {/* SEÇÕES E CARDS */}
                 {secoes.map((secao, index) => (
                     <View key={index} style={styles.secaoContainer}>
-                        <Text style={styles.secaoTitulo}>{secao.titulo}</Text>
+                        <Text style={[styles.secaoTitulo, { color: theme.text }]}>{secao.titulo}</Text>
                         <View style={styles.grid}>
                             {secao.data.map((item) => (
                                 <TouchableOpacity
                                     key={item.id}
-                                    style={styles.cardAdm}
+                                    style={[styles.cardAdm, { backgroundColor: theme.card, borderColor: theme.border }]}
                                     onPress={() => navigation.navigate(item.screen)}
                                 >
-                                    <MaterialCommunityIcons name={item.icon as any} size={28} color={item.color} />
-                                    <Text style={styles.cardTextAdm}>{item.title}</Text>
+                                    <MaterialCommunityIcons
+                                        name={item.icon as any}
+                                        size={28}
+                                        color={isDark && item.color === '#0f172a' ? '#cbd5e1' : item.color}
+                                    />
+                                    <Text style={[styles.cardTextAdm, { color: theme.text }]}>{item.title}</Text>
                                 </TouchableOpacity>
                             ))}
                         </View>

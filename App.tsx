@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ThemeProvider, useTheme } from './ThemeContext'; // Importe o contexto
 import TelaLogin from './screens/TelaLogin/TelaLogin';
 import SecretariaHome from './screens/TelaHome/TelaHomeSecretaria/TelaHomeSecretaria';
 import AdmHome from './screens/TelaHome/TelaHomeAdministrador/TelaHomeAdm';
@@ -12,23 +13,29 @@ import TelaEncerramentoConsulta from './screens/TelaConsultas/TelaEncerramentoCo
 import TelaListarConsultasDia from './screens/TelaConsultas/TelaListarConsultasDia/TelaListarConsultasDia';
 import TelaRealizacaoConsulta from './screens/TelaConsultas/TelaRealizacaoConsulta/TelaRealizacaoConsulta';
 import TelaClientes from './screens/TelaClientes/TelaClientes';
-import TelaCadastro from './screens/TelaCadastroCliente/TelaCadastroCliente';
+import TelaCadastro from './screens/TelaCadastros/TelaCadastroCliente/TelaCadastroCliente';
+import TelaCadastroEspecialidade from './screens/TelaCadastros/TelaCadastroEspecialidade/TelaCadastroEspecialidade';
+import TelaCadastroUsuario from './screens/TelaCadastros/TelaCadastroUsuario/TelaCadastroUsuario';
 
 interface Usuario {
   usuario: string;
   perfil: 'secretaria' | 'medico' | 'admin';
 }
 
-export default function App() {
+// Criamos um componente interno para usar o hook useTheme
+function MainApp() {
   const [usuarioLogado, setUsuarioLogado] = useState<Usuario | null>(null);
   const [telaAtiva, setTelaAtiva] = useState<string>('home');
   const [listaPacientes, setListaPacientes] = useState<any[]>([]);
 
-  // Sistema de navegação manual consistente
+  const { theme, toggleTheme, isDark } = useTheme();
+
   const navigation = {
     navigate: (screen: string) => setTelaAtiva(screen),
     goBack: () => setTelaAtiva('home'),
     replace: (screen: string) => setTelaAtiva(screen),
+    toggleTheme: toggleTheme, // Permite trocar o tema de qualquer tela
+    isDark: isDark
   };
 
   if (!usuarioLogado) {
@@ -57,15 +64,11 @@ export default function App() {
     }
   }
 
-  // --- FLUXO MÉDICO (Ajustado para evitar duplicação) ---
+  // --- FLUXO MÉDICO ---
   if (usuarioLogado.perfil === 'medico') {
     switch (telaAtiva) {
-      case 'realizacao':
-        // Médico volta para a Home após atender ou clicar em voltar
-        return <TelaRealizacaoConsulta onVoltar={() => setTelaAtiva('home')} />;
-
+      case 'realizacao': return <TelaRealizacaoConsulta onVoltar={() => setTelaAtiva('home')} />;
       case 'listaDia':
-        // Caso a secretária ou médico queiram apenas ver a lista
         return (
             <TelaListarConsultasDia
                 onVoltar={() => setTelaAtiva('home')}
@@ -73,18 +76,36 @@ export default function App() {
                 perfilUsuario={usuarioLogado.perfil}
             />
         );
-
-      case 'home':
       default:
         return (
             <HomeMedico
                 navigation={navigation}
                 nomeMedico={usuarioLogado.usuario}
-                onIniciarConsulta={() => setTelaAtiva('realizacao')} // LEVA DIRETO PARA O ATENDIMENTO
+                onIniciarConsulta={() => setTelaAtiva('realizacao')}
             />
         );
     }
   }
 
-  return <AdmHome navigation={navigation} />;
+  // --- FLUXO ADMINISTRADOR ---
+  if (usuarioLogado.perfil === 'admin') {
+    switch (telaAtiva) {
+      case 'agenda': return <TelaMarcacaoConsulta onVoltar={navigation.goBack} />;
+      case 'listaPacientes': return <TelaClientes clientes={listaPacientes} onNovoCliente={() => setTelaAtiva('cadastro')} onVoltar={navigation.goBack} />;
+      case 'cadastroEspec': return <TelaCadastroEspecialidade onVoltar={navigation.goBack} />;
+      case 'gestaoUsuarios': return <TelaCadastroUsuario onVoltar={navigation.goBack} />;
+      default: return <AdmHome navigation={navigation} />;
+    }
+  }
+
+  return null;
+}
+
+// O App exporta o Provider envolvendo o MainApp
+export default function App() {
+  return (
+      <ThemeProvider>
+        <MainApp />
+      </ThemeProvider>
+  );
 }

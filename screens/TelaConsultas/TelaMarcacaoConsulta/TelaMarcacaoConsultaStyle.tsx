@@ -3,66 +3,69 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc', // Tom de fundo mais moderno e limpo
+    // Background definido dinamicamente pelo theme.background
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingTop: 40, // Aumentado para não colidir com o entalhe do iPhone
+    paddingTop: 50, // Ajustado para o entalhe do iPhone (notch)
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
-    backgroundColor: '#ffffff',
+    // Background e borda inferior vêm do theme.card e theme.border
   },
   botaoVoltar: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
-    width: 80,
   },
   textoVoltar: {
-    color: '#0284c7', // Azul padrão do sistema
     fontSize: 14,
     fontWeight: 'bold',
+    marginLeft: 4,
+    // Cor vem do theme.primary
   },
   titulo: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#1e293b',
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    // Cor vem do theme.text
   },
   content: {
     padding: 16,
+    paddingBottom: 40,
   },
 
-  /* ESTILO PARA O PICKER (REQUISITO DE DINAMISMO) */
+  /* ESTILO PARA O PICKER (DINÂMICO) */
   pickerContainer: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#cbd5e1',
-    marginBottom: 16,
-    overflow: 'hidden', // Garante que o Picker respeite o arredondamento
+    marginBottom: 20,
+    overflow: 'hidden',
     justifyContent: 'center',
+    // Background e borda vêm do theme.card e theme.border
   },
 
   label: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#475569',
-    marginBottom: 6,
-    marginTop: 4,
+    fontSize: 12,
+    fontWeight: '800',
+    marginBottom: 8,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    // Cor vem do theme.textSecondary
   },
 
   subtitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#0f172a',
     marginTop: 10,
-    marginBottom: 12,
+    marginBottom: 16,
     borderLeftWidth: 4,
-    borderLeftColor: '#0284c7',
-    paddingLeft: 8,
+    // Cor do texto vem do theme.text, cor da borda do theme.primary
+    paddingLeft: 12,
   },
 
   agendaContainer: {
@@ -70,55 +73,33 @@ export const styles = StyleSheet.create({
   },
   horarioCard: {
     padding: 15,
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10, // Espaçamento entre os cards da agenda
-    elevation: 1, // Sombra leve no Android
-    shadowColor: '#000', // Sombra leve no iOS
-    shadowOffset: { width: 0, height: 1 },
+    marginBottom: 12,
+    elevation: 3, // Sombra no Android
+    shadowColor: '#000', // Sombra no iOS
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: 4,
+    // Background e borda vêm do theme.card e theme.border
   },
   horarioSelected: {
-    borderColor: '#0284c7',
-    backgroundColor: '#f0f9ff',
     borderWidth: 2,
+    // Borda e fundo de seleção vêm dinamicamente (theme.primary)
   },
   textoHorario: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1e293b',
-  },
-  textoStatus: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#059669', // Verde para indicar disponibilidade
-    textTransform: 'uppercase',
+    fontSize: 15,
+    fontWeight: '700',
+    // Cor vem do theme.text
   },
 
-  button: {
-    backgroundColor: '#0284c7',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 30,
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  // Adicione ou atualize estas propriedades no seu StyleSheet
+  /* ELEMENTOS DE STATUS */
   statusBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -129,8 +110,30 @@ export const styles = StyleSheet.create({
   },
   textoStatusDesc: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
     textTransform: 'uppercase',
+    marginTop: 2,
   },
 
+  /* BOTÃO DE AÇÃO */
+  button: {
+    paddingVertical: 18,
+    borderRadius: 14,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 30,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    // Background vem do theme.primary
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
 });

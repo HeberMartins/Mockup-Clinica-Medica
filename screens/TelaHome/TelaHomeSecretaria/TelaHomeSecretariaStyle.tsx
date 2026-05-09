@@ -5,11 +5,11 @@ const { width } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f1f5f9', // Tom de cinza azulado claro
+        // backgroundColor agora vem via inline style: theme.background
     },
     content: {
         padding: 20,
-        alignItems: 'center',
+        paddingBottom: 40, // Espaço extra para o scroll
     },
     header: {
         width: '100%',
@@ -17,16 +17,18 @@ export const styles = StyleSheet.create({
         marginTop: 10,
     },
     welcomeText: {
-        fontSize: 24,
+        fontSize: 22, // Reduzi levemente para não quebrar em telas menores
         fontWeight: 'bold',
-        color: '#0f172a',
+        // color agora vem via inline style: theme.text
     },
     dateText: {
         fontSize: 14,
-        color: '#64748b',
+        fontWeight: '500',
+        marginTop: 2,
+        // color agora vem via inline style: theme.textSecondary
     },
 
-    /* 2. NAVEGAÇÃO POR FUNÇÕES (SUPERIOR) */
+    /* 2. NAVEGAÇÃO POR FUNÇÕES */
     funcoesContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -35,17 +37,17 @@ export const styles = StyleSheet.create({
         marginBottom: 30,
     },
     botaoFuncao: {
-        backgroundColor: 'white',
-        width: '23%', // Ajustado para caber 4 em linha
+        width: '23%',
         paddingVertical: 15,
-        borderRadius: 12,
+        borderRadius: 15, // Bordas mais arredondadas para um ar moderno
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 2,
+        elevation: 3,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
+        // backgroundColor agora vem via inline style: theme.card
     },
     iconCircle: {
         width: 45,
@@ -57,31 +59,29 @@ export const styles = StyleSheet.create({
     },
     textoFuncao: {
         fontSize: 10,
-        fontWeight: '600',
-        color: '#334155',
+        fontWeight: '700',
         textAlign: 'center',
+        // color agora vem via inline style: theme.text
     },
 
     /* 3. DASHBOARD CENTRAL */
     dashboardCentral: {
-        backgroundColor: 'white',
         width: '100%',
-        borderRadius: 20,
+        borderRadius: 24,
         padding: 20,
         elevation: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 12,
-        borderWidth: 1,
-        borderColor: '#e2e8f0',
+        // backgroundColor, borderColor e borderWidth vêm via inline style
     },
     dashboardTitulo: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#1e293b',
         marginBottom: 20,
         textAlign: 'center',
+        // color agora vem via inline style: theme.text
     },
     statsGrid: {
         flexDirection: 'row',
@@ -89,13 +89,12 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
     },
     statCard: {
-        backgroundColor: '#f8fafc',
         width: '48%',
         padding: 15,
-        borderRadius: 12,
+        borderRadius: 16,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#f1f5f9',
+        borderColor: 'transparent', // Base transparente
     },
     statDestaque: {
         backgroundColor: '#eff6ff',
@@ -104,13 +103,15 @@ export const styles = StyleSheet.create({
     statNumero: {
         fontSize: 24,
         fontWeight: '800',
-        color: '#0284c7',
+        // color agora vem via inline style: theme.text (ou fixo se preferir destaque)
     },
     statLabel: {
         fontSize: 12,
-        color: '#64748b',
-        marginTop: 2,
-        fontWeight: '500',
+        marginTop: 4,
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
+        // color agora vem via inline style: theme.textSecondary
     },
 
     /* 4. BOTÃO DE CANCELAMENTO */
@@ -118,17 +119,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 30,
-        padding: 15,
+        marginTop: 20,
+        padding: 18,
         width: '100%',
-        borderRadius: 12,
+        borderRadius: 16,
         borderWidth: 1,
-        borderColor: '#fecaca',
-        backgroundColor: '#fff1f2',
+        // Cores (background e border) vêm via inline style
     },
     textoCancelamento: {
-        color: '#dc3545',
         fontWeight: 'bold',
         marginLeft: 10,
+        fontSize: 14,
+        // color fixo: #dc3545
     },
 });
